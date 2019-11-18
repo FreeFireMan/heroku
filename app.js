@@ -111,6 +111,32 @@ bot.onText(/\/chatreg/, async (msg, match) => {
 // All Chat Show and send message
 
 
+//
+bot.onText(/\/show/, async (msg, match) => {
+    let users = await controller.user.findAllUserWithAdmin();
+    let chats = users.map(value => {
+        return [
+            {
+                text: `Delete ${value.phone_number}`, callback_data: `Delete : ${value.phone_number}`
+            }
+        ]
+    });
+    bot.sendMessage(msg.chat.id, 'Take option', {
+        reply_markup: {
+            inline_keyboard: chats,
+        }
+    }).then(value => {
+
+        console.log(value);
+    })
+})
+;
+//
+bot.on('callback_query', query => {
+    console.log('query', query);
+});
+//
+
 let options = {
     reply_markup: JSON.stringify({
         inline_keyboard: [
@@ -120,6 +146,19 @@ let options = {
         ]
     })
 };
+bot.onText(/\/owu/, (msg, match) => {
+    if (msg.from.id === +'130059762') {
+        // if (msg.from.id === +'642077111') {
+        let messagePromise = bot.sendMessage(msg.chat.id, 'Take option:', options);
+        // text = 'Hello world adada google.com';
+        // https.get(`https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat1}&text=${text}`, res => {
+        //     console.log('sended');
+        // });
+        // https.get(`https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat2}&text=Hello+World`, res => {
+        //     console.log('sended');
+        // });
+    }
+});
 bot.onText(/\/createUser (.+)/, async (msg, match) => {
     let userId = msg.from.id;
     let userIdForRegistration = match[1];
@@ -134,17 +173,4 @@ bot.onText(/\/createUser (.+)/, async (msg, match) => {
     //     console.log('done');
     // }
     // 642077111
-});
-bot.onText(/\/owu/, (msg, match) => {
-    if (msg.from.id === +'130059762') {
-        // if (msg.from.id === +'642077111') {
-        let messagePromise = bot.sendMessage(msg.chat.id, 'Take option:', options);
-        // text = 'Hello world adada google.com';
-        // https.get(`https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat1}&text=${text}`, res => {
-        //     console.log('sended');
-        // });
-        // https.get(`https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat2}&text=Hello+World`, res => {
-        //     console.log('sended');
-        // });
-    }
 });
