@@ -1,4 +1,4 @@
-let createChat = require('./createChat');
+const createChat = require('./createChat');
 
 module.exports = {
     createChat
