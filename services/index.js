@@ -1,1 +1,1 @@
-module.exports.paginationChats = require('./paginationChats');
+module.exports.paginationUsers = require('./pagination');

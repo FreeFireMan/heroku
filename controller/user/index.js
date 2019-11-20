@@ -3,7 +3,6 @@ const findUser = require('./findUser');
 const permisionAdmin = require('./persmisionAdmin');
 const findUserWithAdmin = require('./findUserWithAdmin');
 const findAllUserWithAdmin = require('./findAllUsersWithAdmin');
-const userPagination = require('./userPagination');
 const deleteUserByIdTelegram = require('./deleteUserByIdTelegram');
 
 module.exports = {
@@ -12,6 +11,5 @@ module.exports = {
     permisionAdmin,
     findUserWithAdmin,
     findAllUserWithAdmin,
-    userPagination,
     deleteUserByIdTelegram
 };

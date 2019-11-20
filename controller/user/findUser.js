@@ -1,7 +1,3 @@
-const fs = require('fs-extra');
-const path = require('path');
-const uuid = require('uuid').v1();
-
 const database = require('../../database').getInstance();
 
 module.exports = async (userId) => {

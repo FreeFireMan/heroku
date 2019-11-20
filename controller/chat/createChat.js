@@ -1,7 +1,3 @@
-const fs = require('fs-extra');
-const path = require('path');
-const uuid = require('uuid').v1();
-
 const database = require('../../database').getInstance();
 
 module.exports = async (chatId, chatTitle) => {
@@ -15,7 +11,6 @@ module.exports = async (chatId, chatTitle) => {
         if (!createdChatId) {
             throw new Error('Some error')
         }
-        console.log('created');
         return true;
     } catch (e) {
         console.log(e.message);

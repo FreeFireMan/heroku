@@ -1,7 +1,3 @@
-const fs = require('fs-extra');
-const path = require('path');
-const uuid = require('uuid').v1();
-
 const database = require('../../database').getInstance();
 
 module.exports = async (userId) => {
@@ -11,7 +7,6 @@ module.exports = async (userId) => {
         if (findedUser.data_id !== userId) {
             throw new Error('error');
         }
-        console.log('finded');
         return true;
     } catch (e) {
         console.log(e.message);
