@@ -7,7 +7,7 @@ module.exports = async (msg) => {
         let id = msg.from.id;
         let isAdmin = await controller.user.findUserWithAdmin(id);
         if (isAdmin) {
-            modelName = 'User';
+            let modelName = 'User';
             let currentPage = 1;
             const limitItems = 5;
             let result = await pagination(currentPage, limitItems, modelName);
@@ -47,7 +47,7 @@ module.exports = async (msg) => {
                         break;
 
                     case "nextPage": {
-                        if (currentPage < result.pageCount) {
+                        if (currentPage < countPages) {
                             let newPageArray = await pagination(++currentPage, limitItems, modelName);
                             let nextPageOption = await getUserWithPagination(newPageArray.objects);
 
@@ -68,6 +68,7 @@ module.exports = async (msg) => {
                         if (currentPage > 1) {
                             let newPageArray = await pagination(--currentPage, limitItems, modelName);
                             let nextPageOption = await getUserWithPagination(newPageArray.objects);
+
                             bot.editMessageReplyMarkup(
                                 {
                                     inline_keyboard: nextPageOption

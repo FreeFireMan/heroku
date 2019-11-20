@@ -2,6 +2,7 @@ let db = require('./database').getInstance();
 db.setModels();
 
 let {bot} = require('./settingsBot');
+
 let routes = require('./routes');
 
 // User Registration in database

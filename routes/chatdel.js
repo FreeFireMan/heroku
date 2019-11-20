@@ -7,7 +7,7 @@ module.exports = async (msg) => {
         let id = msg.from.id;
         let isAdmin = await controller.user.findUserWithAdmin(id);
         if (isAdmin) {
-            modelName = 'Chat';
+            let modelName = 'Chat';
             let currentPage = 1;
             const limitItems = 5;
             let result = await pagination(currentPage, limitItems, modelName);
@@ -68,6 +68,7 @@ module.exports = async (msg) => {
                         if (currentPage > 1) {
                             let newPageArray = await pagination(--currentPage, limitItems, modelName);
                             let nextPageOption = await getChatWithPagination(newPageArray.objects);
+
                             bot.editMessageReplyMarkup(
                                 {
                                     inline_keyboard: nextPageOption
@@ -82,7 +83,7 @@ module.exports = async (msg) => {
                         break;
 
                     default:
-                        bot.sendMessage(msg.chat.id, "Something went wrong")
+                        bot.sendMessage(msg.chat.id, "Something went wrong");
                 }
             });
         } else {
