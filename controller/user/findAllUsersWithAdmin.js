@@ -8,10 +8,9 @@ module.exports = async () => {
     try {
         const UserModel = database.getModel('User');
         let findedUser = await UserModel.findAll({where: {is_admin: true}});
-        return findedUser;
         let adminsAre = 'Admins are:\n';
         for (let i = 0; i < findedUser.length; i++) {
-            adminsAre += `${i + 1}) ${findedUser[i].dataValues.first_name} ${findedUser[i].dataValues.last_name} ${findedUser[i].dataValues.phone_number}\n`;
+            adminsAre += `${i + 1}) ${findedUser[i].dataValues.first_name ? findedUser[i].dataValues.first_name : ''} ${findedUser[i].dataValues.last_name ? findedUser[i].dataValues.last_name : ''} ${findedUser[i].dataValues.phone_number}\n`;
         }
         return adminsAre;
     } catch (e) {
