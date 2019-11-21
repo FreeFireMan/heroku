@@ -48,8 +48,14 @@ bot.onText(/\/test/, async (msg) => {
                 }
             });
 
+            // bot.sendMessage(msg.chat.id, `You selected chat with ID: ${groups.toString()}`);
+
             bot.on('callback_query', async (query) => {
+                let id1 = query.message.chat.id;
+
+                console.log('--------------------');
                 console.log(query);
+                console.log('--------------------');
                 let parseData = JSON.parse(query.data);
 
                 switch (parseData.whatDo) {
@@ -65,7 +71,12 @@ bot.onText(/\/test/, async (msg) => {
 
                         console.log(groups);
 
-                        bot.sendMessage(msg.chat.id, `You selected chat with ID: ${groups.toString()}`);
+                        bot.editMessageText(`You selected chat with ID: ${groups.toString()}`, {
+                            chat_id: query.message.chat.id,
+                            message_id: query.message.message_id
+                        });
+
+                        // bot.sendMessage(id1, `You selected chat with ID: ${groups.toString()}`);
 
                         let newPageArray = await pagination(currentPage, limitItems, modelName);
                         countPages = newPageArray.pageCount;
@@ -120,7 +131,7 @@ bot.onText(/\/test/, async (msg) => {
                         break;
 
                     default:
-                        bot.sendMessage(msg.chat.id, "Something went wrong");
+                        bot.sendMessage(id1, "Something went wrong");
                 }
 
                 bot.once("message", (message, metadata) => {
@@ -245,6 +256,32 @@ bot.onText(/\/test/, async (msg) => {
     //         bot.sendVideoNote(groups[i], videoNote);
     //     }
     // });
+});
+
+bot.onText(/\/test2/, (msg, match) => {
+    bot.sendMessage(msg.chat.id, 'hello', {
+        reply_markup: {
+            inline_keyboard: [[
+                {
+                    text: `<<`,
+                    callback_data: JSON.stringify({whatDo: 'prevPageAdmin'})
+                },
+                {
+                    text: `Cancel`,
+                    callback_data: JSON.stringify({whatDo: 'CancelAdmin'})
+                },
+                {
+                    text: `>>`,
+                    callback_data: JSON.stringify({whatDo: 'nextPageAdmin'})
+                }]]
+        }
+    });
+
+    bot.on("callback_query", query => {
+        console.log(query);
+        console.log('da');
+        bot.sendMessage(msg.chat.id, 'hello2')
+    });
 });
 
 // Help

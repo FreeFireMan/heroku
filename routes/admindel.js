@@ -12,7 +12,7 @@ module.exports = async (msg) => {
             const limitItems = 5;
             let result = await pagination(currentPage, limitItems, modelName);
 
-            let delUserOption = await getUserWithPagination(result,1);
+            let delUserOption = await getUserWithPagination(result, 1);
 
             bot.sendMessage(msg.chat.id, "Select admin for delete", {
                 reply_markup: {
@@ -29,10 +29,10 @@ module.exports = async (msg) => {
                         await controller.user.deleteUserByIdTelegram(parseData.id);
 
                         bot.sendMessage(msg.chat.id,
-                            `You delete a: ${user.first_name} ${user.last_name?user.last_name : ""}`);
+                            `You delete a: ${user.first_name} ${user.last_name ? user.last_name : ""}`);
 
                         let newPageArray = await pagination(parseData.page, limitItems, modelName);
-                        let nextPageOption = await getUserWithPagination(newPageArray,parseData.page);
+                        let nextPageOption = await getUserWithPagination(newPageArray, parseData.page);
 
                         bot.editMessageReplyMarkup(
                             {
@@ -48,7 +48,7 @@ module.exports = async (msg) => {
 
                     case "nextPageAdmin": {
                         let newPageArray = await pagination(parseData.page, limitItems, modelName);
-                        let nextPageOption = await getUserWithPagination(newPageArray,parseData.page);
+                        let nextPageOption = await getUserWithPagination(newPageArray, parseData.page);
 
                         bot.editMessageReplyMarkup(
                             {
@@ -65,7 +65,7 @@ module.exports = async (msg) => {
 
                     case "prevPageAdmin": {
                         let newPageArray = await pagination(parseData.page, limitItems, modelName);
-                        let nextPageOption = await getUserWithPagination(newPageArray,parseData.page);
+                        let nextPageOption = await getUserWithPagination(newPageArray, parseData.page);
 
                         bot.editMessageReplyMarkup(
                             {
@@ -80,7 +80,7 @@ module.exports = async (msg) => {
                     }
                         break;
                     case "CancelAdmin":
-                        bot.deleteMessage(query.message.chat.id,query.message.message_id);
+                        bot.deleteMessage(query.message.chat.id, query.message.message_id);
                         break;
 
                     default:
