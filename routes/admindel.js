@@ -12,8 +12,7 @@ module.exports = async (msg) => {
             const limitItems = 5;
             let result = await pagination(currentPage, limitItems, modelName);
 
-            let delUserOption = await getUserWithPagination(result.objects);
-            let countPages = result.pageCount;
+            let delUserOption = await getUserWithPagination(result,1);
 
             bot.sendMessage(msg.chat.id, "Select admin for delete", {
                 reply_markup: {
@@ -26,13 +25,14 @@ module.exports = async (msg) => {
 
                 switch (parseData.whatDo) {
                     case "delUser": {
+                        let user = await controller.user.findUser(parseData.id);
                         await controller.user.deleteUserByIdTelegram(parseData.id);
 
-                        bot.sendMessage(msg.chat.id, `You delete a: ${parseData.title}`);
+                        bot.sendMessage(msg.chat.id,
+                            `You delete a: ${user.first_name} ${user.last_name?user.last_name : ""}`);
 
-                        let newPageArray = await pagination(currentPage, limitItems, modelName);
-                        countPages = newPageArray.pageCount;
-                        let nextPageOption = await getUserWithPagination(newPageArray.objects);
+                        let newPageArray = await pagination(parseData.page, limitItems, modelName);
+                        let nextPageOption = await getUserWithPagination(newPageArray,parseData.page);
 
                         bot.editMessageReplyMarkup(
                             {
@@ -47,39 +47,40 @@ module.exports = async (msg) => {
                         break;
 
                     case "nextPage": {
-                        if (currentPage < countPages) {
-                            let newPageArray = await pagination(++currentPage, limitItems, modelName);
-                            let nextPageOption = await getUserWithPagination(newPageArray.objects);
+                        let newPageArray = await pagination(parseData.page, limitItems, modelName);
+                        let nextPageOption = await getUserWithPagination(newPageArray,parseData.page);
 
-                            bot.editMessageReplyMarkup(
-                                {
-                                    inline_keyboard: nextPageOption
-                                },
-                                {
-                                    chat_id: query.message.chat.id,
-                                    message_id: query.message.message_id
-                                }
-                            );
-                        }
+                        bot.editMessageReplyMarkup(
+                            {
+                                inline_keyboard: nextPageOption
+                            },
+                            {
+                                chat_id: query.message.chat.id,
+                                message_id: query.message.message_id
+                            }
+                        );
+
                     }
                         break;
 
                     case "prevPage": {
-                        if (currentPage > 1) {
-                            let newPageArray = await pagination(--currentPage, limitItems, modelName);
-                            let nextPageOption = await getUserWithPagination(newPageArray.objects);
+                        let newPageArray = await pagination(parseData.page, limitItems, modelName);
+                        let nextPageOption = await getUserWithPagination(newPageArray,parseData.page);
 
-                            bot.editMessageReplyMarkup(
-                                {
-                                    inline_keyboard: nextPageOption
-                                },
-                                {
-                                    chat_id: query.message.chat.id,
-                                    message_id: query.message.message_id
-                                }
-                            );
-                        }
+                        bot.editMessageReplyMarkup(
+                            {
+                                inline_keyboard: nextPageOption
+                            },
+                            {
+                                chat_id: query.message.chat.id,
+                                message_id: query.message.message_id
+                            }
+                        );
+
                     }
+                        break;
+                    case "Cancel":
+                        bot.deleteMessage(query.message.chat.id,query.message.message_id);
                         break;
 
                     default:
