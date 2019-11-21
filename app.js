@@ -49,9 +49,12 @@ bot.onText(/\/test/, async (msg) => {
             });
 
             // bot.sendMessage(msg.chat.id, `You selected chat with ID: ${groups.toString()}`);
-
+            let popa;
+            let jopa;
             bot.on('callback_query', async (query) => {
                 let id1 = query.message.chat.id;
+                popa = query.message.chat.id;
+                jopa = query.message.message_id;
 
                 console.log('--------------------');
                 console.log(query);
@@ -134,38 +137,49 @@ bot.onText(/\/test/, async (msg) => {
                         bot.sendMessage(id1, "Something went wrong");
                 }
 
-                bot.once("message", (message, metadata) => {
-                    let text = message.text;
 
-                    for (let i = 0; i < groups.length; i++) {
-                        bot.sendMessage(groups[i], text);
-                    }
-                });
+                // bot.once("message", (message, metadata) => {
+                //     let text = message.text;
+                //
+                //     for (let i = 0; i < groups.length; i++) {
+                //         bot.sendMessage(groups[i], text);
+                //     }
+                // });
+                //
+                // bot.once("photo", (message, metadata) => {
+                //     let photo = message.photo[0].file_id;
+                //     let caption = message.caption;
+                //
+                //     for (let i = 0; i < groups.length; i++) {
+                //         bot.sendPhoto(groups[i], photo, {caption: caption});
+                //     }
+                // });
+                //
+                // bot.once("voice", (message, metadata) => {
+                //     let voice = message.voice.file_id;
+                //
+                //     for (let i = 0; i < groups.length; i++) {
+                //         bot.sendVoice(groups[i], voice);
+                //     }
+                // });
+                //
+                // bot.once("video_note", (message, metadata) => {
+                //     let videoNote = message.video_note.file_id;
+                //
+                //     for (let i = 0; i < groups.length; i++) {
+                //         bot.sendVideoNote(groups[i], videoNote);
+                //     }
+                // });
 
-                bot.once("photo", (message, metadata) => {
-                    let photo = message.photo[0].file_id;
-                    let caption = message.caption;
+            });
 
-                    for (let i = 0; i < groups.length; i++) {
-                        bot.sendPhoto(groups[i], photo, {caption: caption});
-                    }
-                });
-
-                bot.once("voice", (message, metadata) => {
-                    let voice = message.voice.file_id;
-
-                    for (let i = 0; i < groups.length; i++) {
-                        bot.sendVoice(groups[i], voice);
-                    }
-                });
-
-                bot.once("video_note", (message, metadata) => {
-                    let videoNote = message.video_note.file_id;
-
-                    for (let i = 0; i < groups.length; i++) {
-                        bot.sendVideoNote(groups[i], videoNote);
-                    }
-                });
+            bot.once("message", message => {
+                let id = message.chat.id;
+                let messageId = message.message_id;
+                for (let i = 0; i < groups.length; i++) {
+                    bot.forwardMessage(groups[i], id, messageId);
+                }
+                bot.deleteMessage(popa, jopa);
             });
         } else {
             bot.sendMessage(msg.chat.id, `Sorry, ${msg.from.first_name ? msg.from.first_name : ''} ${msg.from.last_name ? msg.from.last_name : ''} ${msg.from.phone_number ? msg.from.phone_number : ''} ${msg.from.username ? msg.from.username : ''} you don't have permisions on this operation!`);
