@@ -46,7 +46,7 @@ module.exports = async (msg) => {
                     }
                         break;
 
-                    case "nextPage": {
+                    case "nextPageAdmin": {
                         let newPageArray = await pagination(parseData.page, limitItems, modelName);
                         let nextPageOption = await getUserWithPagination(newPageArray,parseData.page);
 
@@ -63,7 +63,7 @@ module.exports = async (msg) => {
                     }
                         break;
 
-                    case "prevPage": {
+                    case "prevPageAdmin": {
                         let newPageArray = await pagination(parseData.page, limitItems, modelName);
                         let nextPageOption = await getUserWithPagination(newPageArray,parseData.page);
 
@@ -79,7 +79,7 @@ module.exports = async (msg) => {
 
                     }
                         break;
-                    case "Cancel":
+                    case "CancelAdmin":
                         bot.deleteMessage(query.message.chat.id,query.message.message_id);
                         break;
 

@@ -45,7 +45,7 @@ module.exports = async (msg) => {
                     }
                         break;
 
-                    case "nextPage": {
+                    case "nextPageChat": {
                         let newPageArray = await pagination(parseData.page, limitItems, modelName);
                         let nextPageOption = await getChatWithPagination(newPageArray,parseData.page);
 
@@ -61,7 +61,7 @@ module.exports = async (msg) => {
                     }
                         break;
 
-                    case "prevPage": {
+                    case "prevPageChat": {
                         let newPageArray = await pagination(parseData.page, limitItems, modelName);
                         let nextPageOption = await getChatWithPagination(newPageArray,parseData.page);
 
@@ -76,7 +76,7 @@ module.exports = async (msg) => {
                         );
                     }
                         break;
-                    case "Cancel":
+                    case "CancelChat":
                         bot.deleteMessage(query.message.chat.id,query.message.message_id);
                         break;
 
