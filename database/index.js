@@ -7,7 +7,7 @@ module.exports = (() => {
 
     function initConnection() {
         const client = new Sequelize('heroku_90fcf2a7e92f604', 'b3e802a3c0d945', 'e7b84223', {
-            host: 'localhost',
+            host: 'eu-cdbr-west-02.cleardb.net',
             dialect: 'mysql'
         });
 
